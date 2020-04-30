@@ -1,0 +1,21 @@
+name: 'google-sheets-secrets-action'
+description: 'Setup some pair of key value in env vars as masked env vars like github actions secrets'
+inputs:
+  auth-client-email:
+    description: 'google service account client email'
+    required: true
+  auth-private-key:
+    description: 'google service account private key'
+    required: true
+  spreadsheet:
+      description: 'spreadsheet document id'
+      required: true
+  sheet:
+    description: 'in case of multiple sheets specify one'
+    required: false        
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'lock'
+  color: 'green'
