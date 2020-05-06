@@ -6,21 +6,17 @@ const sheets = google.sheets('v4');
 
 async function googleSheetsSecrets(googleAuth,sheetId,sheetTab) {
   core.info(`Loading values from ${sheetTab}`)
-  sheets.spreadsheets.values.get(
-    {
+  try {
+    await sheets.spreadsheets.values.get({
       auth: googleAuth,
       spreadsheetId: sheetId,
       range: sheetTab,
-    },
-    (err, res) => {
-      if (err) {
-        core.info('Google Sheets API Error');
-        throw err;
+    }).then(response => {
+      const rows = response.data.values;
+      if (!rows || rows.length === 0) {
+        throw Error('No secrets found');
       }
-      const rows = res.data.values;
-      if (rows.length === 0) {
-        throw 'No secrets found';
-      } else {
+      else {
         for (const row of rows) {
           if (row[0] && row[1]) {
             core.setSecret(row[1]);
@@ -28,9 +24,12 @@ async function googleSheetsSecrets(googleAuth,sheetId,sheetTab) {
           }
         }
       }
-    }
-  );
+    });
+  } catch(err) {
+    throw err;
+  }
 }
+
 
 async function run() {
   try { 
