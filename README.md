@@ -7,7 +7,7 @@ Setup github actions env masked vars like secrets using google sheets.
 ```yaml
 steps:
  - name: Store ENV secrets from some google spreadsheet document as source
-   uses: dibenlloch/google-sheets-secrets-action@v1.0.1
+   uses: dibenlloch/google-sheets-secrets-action@v1.0.2
    with:
      auth-client-email: ${{ secrets.SERVICE_EMAIL }}
      auth-private-key: ${{ secrets.SERVICE_KEY }}
